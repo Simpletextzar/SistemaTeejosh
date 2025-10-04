@@ -14,7 +14,30 @@
         exit;
     }
 
-    
+    $result = pg_query($connection, "SELECT * FROM producto");
+
     ?>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>ID producto</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+        </tr>
+
+        <?php
+        while($row = pg_fetch_assoc($result)) {
+            echo "
+            <tr>
+                <td>$row[id]</td>
+                <td>$row[id_producto]</td>
+                <td>$row[nombre]</td>
+                <td>$row[descripcion]</td>
+            </tr>
+            ";
+        }
+
+        ?>
+    </table>
 </body>
 </html>
