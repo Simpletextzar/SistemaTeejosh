@@ -8,11 +8,12 @@
 </head>
 <body>
     <h1>Menú Principal - Módulo de Inventario</h1>
-    <ul>
-        <li><a href="">Insertar a inventario</a></li>
-        <li><a href="items.php">Modificar inventario</a></li>
-        <li><a href="">Eliminar inventario</a></li>
-        <li><a href="">Mostrar inventario</a></li>
-    </ul>
+
+    <div class="menu">
+        <a href="">Insertar a inventario</a>
+        <a href="">Modificar inventario</a>
+        <a href="">Eliminar inventario</a>
+        <a href="items.php">Mostrar inventario</a>
+    </div>
 </body>
 </html>
