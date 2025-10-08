@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Productos del inventario</h2>
+    <h2>Items del inventario</h2>
     <?php
     $connection = pg_connect("host=aws-1-sa-east-1.pooler.supabase.com dbname=db_teejosh user=postgres.piearfkkossvytunnrfk password=patoloco090");
     if(!$connection) {
@@ -15,17 +15,31 @@
         exit;
     }
 
-    $result = pg_query($connection, "SELECT * FROM item");
+    $result = pg_query($connection, 
+    "
+    SELECT 
+        item.id,
+        producto.nombre AS nombre,
+        item.precio,
+        item.cantidad,
+        COALESCE(edicion.nombre, '-') AS edicion,
+        lenguaje.nombre AS lenguaje,
+        item.fecha_ingreso
+    FROM item
+    INNER JOIN producto ON item.id_producto = producto.id
+    LEFT JOIN edicion ON item.id_edicion = edicion.id
+    INNER JOIN lenguaje ON item.id_lenguaje = lenguaje.id
+    ");
 
     ?>
     <table>
         <tr>
             <th>ID</th>
-            <th>ID_producto</th>
+            <th>Nombre</th>
             <th>Precio</th>
             <th>Cantidad</th>
-            <th>ID_edicion</th>
-            <th>ID_lenguaje</th>
+            <th>Edicion</th>
+            <th>Lenguaje</th>
             <th>Fecha de ingreso</th>
         </tr>
 
@@ -34,11 +48,11 @@
             echo "
             <tr>
                 <td>$row[id]</td>
-                <td>$row[id_producto]</td>
+                <td>$row[nombre]</td>
                 <td>$row[precio]</td>
                 <td>$row[cantidad]</td>
-                <td>$row[id_edicion]</td>
-                <td>$row[id_lenguaje]</td>
+                <td>$row[edicion]</td>
+                <td>$row[lenguaje]</td>
                 <td>$row[fecha_ingreso]</td>
             </tr>
             ";
