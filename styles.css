@@ -1,5 +1,7 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
+}
+body {
     background-color: #f8f9fa;
 }
 table {
@@ -8,6 +10,7 @@ table {
 }
 th {
     border: 1px solid black;
+    padding: .24rem;
 }
 td {
     border: 1px solid black;
@@ -33,4 +36,7 @@ td {
 
 .menu a:hover {
     background-color: #0056b3;
+}
+.full-container {
+    padding-left: 2rem;
 }
