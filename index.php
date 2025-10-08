@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
     <h1>Menú Principal - Módulo de Inventario</h1>
 
     <div class="menu">
