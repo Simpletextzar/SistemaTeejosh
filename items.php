@@ -8,30 +8,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
-    <?php include 'db_connect.php'; ?>
+    <?php
+    session_start();
+    include 'navbar.php';
+    include 'db_connect.php'; 
+    ?>
+
     <div class="full-container">
         <h2>Items del inventario</h2>
-        <?php
-
-
-        $result = pg_query($connection, 
-        "
-        SELECT 
-            item.id,
-            producto.nombre AS nombre,
-            item.precio,
-            item.cantidad,
-            COALESCE(edicion.nombre, '-') AS edicion,
-            lenguaje.nombre AS lenguaje,
-            to_char(item.fecha_ingreso, 'YYYY-MM-DD HH24:MI:SS') AS fecha_ingreso
-        FROM item
-        INNER JOIN producto ON item.id_producto = producto.id
-        LEFT JOIN edicion ON item.id_edicion = edicion.id
-        INNER JOIN lenguaje ON item.id_lenguaje = lenguaje.id
-        ");
-
-        ?>
+        
+        <?php include 'formulario_busqueda.php'; ?>
         <table>
             <tr>
                 <th>ID</th>
@@ -44,21 +30,50 @@
             </tr>
 
             <?php
-            while($row = pg_fetch_assoc($result)) {
+            //Comprobamos que tengamos informacion de sesion de items, caso contrario cargamos todo
+            if (isset($_SESSION['items'])) {
+                $items = $_SESSION['items'];
+            } else {
+                $sql = "
+                SELECT 
+                    item.id,
+                    producto.nombre AS nombre,
+                    item.precio,
+                    item.cantidad,
+                    COALESCE(edicion.nombre, '-') AS edicion,
+                    lenguaje.nombre AS lenguaje,
+                    to_char(item.fecha_ingreso, 'YYYY-MM-DD HH24:MI:SS') AS fecha_ingreso
+                FROM item
+                INNER JOIN producto ON item.id_producto = producto.id
+                LEFT JOIN edicion ON item.id_edicion = edicion.id
+                INNER JOIN lenguaje ON item.id_lenguaje = lenguaje.id
+                ";
+                $result = pg_query($connection, $sql);
+                $items = [];
+                while ($row = pg_fetch_assoc($result)) {
+                    $items[] = $row;
+                }
+            }
+
+            //Impresion de las filas
+            foreach ($items as $row) {
                 echo "
                 <tr>
-                    <td>$row[id]</td>
-                    <td>$row[nombre]</td>
-                    <td>$row[precio]</td>
-                    <td>$row[cantidad]</td>
-                    <td>$row[edicion]</td>
-                    <td>$row[lenguaje]</td>
-                    <td>$row[fecha_ingreso]</td>
+                    <td>{$row['id']}</td>
+                    <td>{$row['nombre']}</td>
+                    <td>{$row['precio']}</td>
+                    <td>{$row['cantidad']}</td>
+                    <td>{$row['edicion']}</td>
+                    <td>{$row['lenguaje']}</td>
+                    <td>{$row['fecha_ingreso']}</td>
                 </tr>
                 ";
             }
 
+            unset($_SESSION['items']);
+
             ?>
+
         </table>
     </div>
 </body>
