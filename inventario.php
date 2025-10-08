@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h2>Productos del inventario</h2>
@@ -20,9 +21,8 @@
     <table>
         <tr>
             <th>ID</th>
-            <th>ID producto</th>
             <th>Nombre</th>
-            <th>Descripcion</th>
+            <th>Descripción</th>
         </tr>
 
         <?php
@@ -30,7 +30,6 @@
             echo "
             <tr>
                 <td>$row[id]</td>
-                <td>$row[id_producto]</td>
                 <td>$row[nombre]</td>
                 <td>$row[descripcion]</td>
             </tr>
