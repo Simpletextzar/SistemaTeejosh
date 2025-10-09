@@ -28,7 +28,7 @@
 </nav>
 
 
-<!-- navbar.php --> navbar azul
+<!-- navbar.php navbar azul --> 
 <!-- <nav style="
     background-color: #1e1e1e;
     color: white;
