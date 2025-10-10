@@ -16,7 +16,6 @@
 
     <div class="full-container">
         <h2>Eliminar Producto del Inventario</h2>
-
         <?php
         if (isset($_POST['eliminar'])) {
             $id = $_POST['id'];
