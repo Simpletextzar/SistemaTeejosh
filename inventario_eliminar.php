@@ -1,64 +1,93 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Producto</title>
+    <title>Eliminar Producto </title>
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
-    <?php include 'db_connect.php'; ?>
-
-    <h2>Gestión de productos - Eliminar del inventario</h2>
-
     <?php
-    if (isset($_POST['eliminar'])) {
-        $id = $_POST['id'];
+    session_start();
+    include 'navbar.php';
+    include 'db_connect.php';
+    ?>
 
-        // Verificar si el producto existe
-        $check_query = pg_query_params($connection, "SELECT * FROM producto WHERE id = $1", array($id));
-        if (pg_num_rows($check_query) > 0) {
-            // Eliminar producto
-            $delete_query = pg_query_params($connection, "DELETE FROM producto WHERE id = $1", array($id));
+    <div class="full-container">
+        <h2>Eliminar Producto del Inventario</h2>
 
-            if ($delete_query) {
-                echo "<p style='color:green;'>Producto con ID $id eliminado correctamente.</p>";
+        <?php
+        if (isset($_POST['eliminar'])) {
+            $id = $_POST['id'];
+            $delete = pg_query($connection, "DELETE FROM item WHERE id = '$id'");
+            if ($delete) {
+                echo "<p>Producto  eliminado correctamente.</p>";
             } else {
-                echo "<p style='color:red;'>Error al eliminar el producto.</p>";
+                echo "<p>Error al eliminar el Producto.</p>";
             }
-        } else {
-            echo "<p style='color:red;'>No se encontró un producto con el ID ingresado.</p>";
+        }
+
+        $sql = "
+        SELECT 
+            item.id,
+            producto.nombre AS nombre,
+            item.precio,
+            item.cantidad,
+            COALESCE(edicion.nombre, '-') AS edicion,
+            lenguaje.nombre AS lenguaje,
+            to_char(item.fecha_ingreso, 'YYYY-MM-DD HH24:MI:SS') AS fecha_ingreso
+        FROM item
+        INNER JOIN producto ON item.id_producto = producto.id
+        LEFT JOIN edicion ON item.id_edicion = edicion.id
+        INNER JOIN lenguaje ON item.id_lenguaje = lenguaje.id
+        ";
+        $result = pg_query($connection, $sql);
+        ?>
+
+        <form method="post" id="formEliminar">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Edición</th>
+                    <th>Lenguaje</th>
+                    <th>Fecha de ingreso</th>
+                    <th>Acción</th>
+                </tr>
+                <?php
+                while ($row = pg_fetch_assoc($result)) {
+                    echo "
+                    <tr>
+                        <td>{$row['id']}</td>
+                        <td>{$row['nombre']}</td>
+                        <td>{$row['precio']}</td>
+                        <td>{$row['cantidad']}</td>
+                        <td>{$row['edicion']}</td>
+                        <td>{$row['lenguaje']}</td>
+                        <td>{$row['fecha_ingreso']}</td>
+                        <td>
+                            <button type='button' onclick=\"confirmarEliminacion('{$row['id']}')\">Eliminar</button>
+                        </td>
+                    </tr>
+                    ";
+                }
+                ?>
+            </table>
+            <input type="hidden" name="id" id="id">
+            <input type="hidden" name="eliminar" value="1">
+        </form>
+    </div>
+
+    <script>
+    function confirmarEliminacion(id) {
+        if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+            document.getElementById('id').value = id;
+            document.getElementById('formEliminar').submit();
         }
     }
-
-    // Mostrar tabla actualizada
-    $result = pg_query($connection, "SELECT * FROM producto ORDER BY id");
-
-    echo "<table border='1' cellpadding='5' cellspacing='0'>";
-    echo "<tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Accion</th>
-          </tr>";
-
-    while ($row = pg_fetch_assoc($result)) {
-        echo "<tr>
-                <td>{$row['id']}</td>
-                <td>{$row['nombre']}</td>
-                <td>{$row['descripcion']}</td>
-                <td>
-                    <form method='POST' action='' onsubmit='return confirm(\"¿Seguro que deseas eliminar este producto?\");'>
-                        <input type='hidden' name='id' value='{$row['id']}'>
-                        <button type='submit' name='eliminar'>Eliminar</button>
-                    </form>
-                </td>
-              </tr>";
-    }
-
-    echo "</table>";
-    ?>
+    </script>
 </body>
 </html>
