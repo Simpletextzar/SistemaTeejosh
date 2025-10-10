@@ -7,7 +7,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php 
+    session_start();
+    if (!isset($_SESSION['loggedin'])) {
+        header('Location: login.php');
+        exit;
+    }
+
+    include 'navbar.php'; 
+    ?>
+
+    <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
+    <p>Has iniciado sesión correctamente.</p>
+    <a href="logout.php">Cerrar sesión</a>
+
     <h1>Menú Principal - Módulo de Inventario</h1>
 
     <div class="menu">
