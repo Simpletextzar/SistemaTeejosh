@@ -12,7 +12,7 @@
 
     <div class="menu">
         <a href="inventario_insertar.php">Insertar a inventario</a>
-        <a href="">Modificar inventario</a>
+        <a href="op_modificar.php">Modificar inventario</a>
         <a href="">Eliminar inventario</a>
         <a href="items.php">Mostrar inventario</a>
     </div>
