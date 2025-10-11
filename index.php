@@ -18,8 +18,6 @@
     ?>
 
     <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
-    <p>Has iniciado sesión correctamente.</p>
-    <a href="logout.php">Cerrar sesión</a>
 
     <h1>Menú Principal - Módulo de Inventario</h1>
 
