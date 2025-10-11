@@ -13,7 +13,7 @@
     </div>
 
     <!-- DERECHA -->
-    <div style="display: flex; gap: 10px; min-width: 250px; justify-content: flex-end;">
+    <div style="display: flex; gap: 10px;">
         <?php if (basename($_SERVER['PHP_SELF']) !== 'index.php'): ?>
             <a href="index.php" style="
                 color: white;
@@ -26,12 +26,6 @@
               onmouseout="this.style.backgroundColor='#011a00ff'">
                 Volver al inicio
             </a>
-        <?php else: ?>
-            <!-- Espacio invisible para mantener el tamaño -->
-            <a style="
-                visibility: hidden;
-                padding: 8px 14px;
-            ">Volver al inicio</a>
         <?php endif; ?>
 
         <a href="logout.php" style="

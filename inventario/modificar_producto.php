@@ -58,8 +58,8 @@
 <body>
 
 <?php
-include 'navbar.php';
-include 'db_connect.php';
+include '../includes/db_connect.php';
+include '../includes/navbar.php';
 ?>
 
 <div class="container">

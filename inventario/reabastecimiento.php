@@ -21,8 +21,8 @@
 <body>
 
 <?php
-include 'db_connect.php';
-include 'navbar.php';
+include '../includes/db_connect.php';
+include '../includes/navbar.php';
 
 $items_query = pg_query($connection, "
     SELECT i.id, p.nombre AS producto, i.cantidad

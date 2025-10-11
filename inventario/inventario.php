@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
-    <?php include 'db_connect.php'; ?>
+    <?php
+    include '../includes/db_connect.php';
+    include '../includes/navbar.php';
+    ?>
+    
     <h2>Productos del inventario</h2>
     <?php
     $result = pg_query($connection, "SELECT * FROM producto");
