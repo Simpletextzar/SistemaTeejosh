@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connect.php';
+include '../includes/db_connect.php';
 $query = isset($_GET['query']) ? trim($_GET['query']) : '';
 $sql = "
 SELECT 
@@ -38,5 +38,6 @@ while ($row = pg_fetch_assoc($result)) {
     $items[] = $row;
 }
 $_SESSION['items'] = $items;
-header("Location: items.php");
+header("Location: ../inventario/items.php");
 exit;
+?>

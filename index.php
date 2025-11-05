@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Menú Principal - Inventario</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <?php 
@@ -14,20 +14,18 @@
         exit;
     }
 
-    include 'navbar.php'; 
+    include 'includes/navbar.php';
     ?>
 
     <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
-    <p>Has iniciado sesión correctamente.</p>
-    <a href="logout.php">Cerrar sesión</a>
 
     <h1>Menú Principal - Módulo de Inventario</h1>
 
     <div class="menu">
-        <a href="inventario_insertar.php">Insertar a inventario</a>
-        <a href="op_modificar.php">Modificar inventario</a>
-        <a href="inventario_eliminar.php">Eliminar inventario</a>
-        <a href="items.php">Mostrar inventario</a>
+        <a href="inventario/inventario_insertar.php">Insertar a inventario</a>
+        <a href="inventario/op_modificar.php">Modificar inventario</a>
+        <a href="inventario/inventario_eliminar.php">Eliminar inventario</a>
+        <a href="inventario/items.php">Mostrar inventario</a>
     </div>
 </body>
 </html>

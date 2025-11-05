@@ -38,8 +38,8 @@
 <body>
 
 <?php
-include 'db_connect.php';
-include 'navbar.php';
+include '../includes/db_connect.php';
+include '../includes/navbar.php';
 
 // Cargar todos los ítems disponibles
 $items_query = pg_query($connection, "

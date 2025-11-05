@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
         .insert-form {
             display: grid;
@@ -49,9 +49,8 @@
 </head>
 <body>
     <?php
-    session_start();
-    include 'navbar.php';
-    include 'db_connect.php';
+    include '../includes/db_connect.php';
+    include '../includes/navbar.php';
     ?>
 
     <div class="full-container">
