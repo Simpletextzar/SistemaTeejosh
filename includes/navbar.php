@@ -14,8 +14,8 @@
 
     <!-- DERECHA -->
     <div style="display: flex; gap: 10px;">
-        <?php if (basename($_SERVER['PHP_SELF']) !== 'index.php'): ?>
-            <a href="index.php" style="
+        <?php if (basename($_SERVER['PHP_SELF']) !== '../index.php'): ?>
+            <a href="../index.php" style="
                 color: white;
                 text-decoration: none;
                 background-color: #011a00ff;
