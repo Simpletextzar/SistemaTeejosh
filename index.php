@@ -19,13 +19,14 @@
 
     <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
 
-    <h1>Menú Principal - Módulo de Inventario</h1>
+    <h1>Menú Principal - Opciones del sistema</h1>
 
     <div class="menu">
         <a href="inventario/inventario_insertar.php">Insertar a inventario</a>
         <a href="inventario/op_modificar.php">Modificar inventario</a>
         <a href="inventario/inventario_eliminar.php">Eliminar inventario</a>
         <a href="inventario/items.php">Mostrar inventario</a>
+        <a href="ventas/venta.php">Registrar una venta</a>
     </div>
 </body>
 </html>
