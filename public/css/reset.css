@@ -1,0 +1,164 @@
+/**
+ * ============================================================================
+ * RESET CSS MODERNO - NORMALIZACIÓN DE ESTILOS ENTRE NAVEGADORES
+ * ============================================================================
+ * 
+ * ARCHIVO: reset.css
+ * UBICACIÓN: /public/css/reset.css
+ * 
+ * DESCRIPCIÓN:
+ * Reset CSS moderno y minimalista que normaliza los estilos por defecto entre
+ * diferentes navegadores. Basado en las mejores prácticas actuales de CSS,
+ * proporciona una base consistente para construir interfaces sin sorpresas
+ * cross-browser.
+ * 
+ * FUNCIONALIDADES PRINCIPALES:
+ * - Normalización del box-sizing para cálculos predecibles
+ * - Eliminación de márgenes y paddings por defecto
+ * - Mejora de renderizado de texto y medios
+ * - Optimización de accesibilidad y rendimiento
+ * - Soporte para animaciones y responsive design
+ * 
+ * DATOS IMPORTANTES:
+ * - 🟢 COMPLEJIDAD: Baja
+ * - 🎯 RESPONSABILIDAD: Base consistente para todo el sistema
+ * - 🌐 COMPATIBILIDAD: Todos los navegadores modernos
+ * - 📱 ENFOQUE: Mobile-first con mejoras progresivas
+ * - 🔧 MÉTODO: Reset suave (no agresivo)
+ * 
+ * RELACIONES:
+ * - USADO POR: Todas las vistas del sistema Teejosh
+ * - CARGADO EN: layouts/header.php antes de styles.css
+ * - COMPLEMENTA: styles.css (proporciona base normalizada)
+ * - AFECTA A: Todos los elementos HTML del sistema
+ * 
+ * CARACTERÍSTICAS TÉCNICAS:
+ * - Box-sizing border-box para todos los elementos
+ * - Eliminación completa de márgenes por defecto
+ * - Line-height accesible (1.5)
+ * - Font-smoothing mejorado para legibilidad
+ * - Medios responsive por defecto
+ * - Herencia de fuentes en controles de formulario
+ * - Prevención de overflow de texto
+ * - Mejora de wrapping de texto
+ * 
+ * EJEMPLOS DE APLICACIÓN:
+ * ```html
+ * <!-- En header.php -->
+ * <link rel="stylesheet" href="<?= BASE_URL ?>css/reset.css">
+ * <link rel="stylesheet" href="<?= BASE_URL ?>css/styles.css">
+ * ```
+ * 
+ * BENEFICIOS ESPECÍFICOS:
+ * 1. Cálculos de tamaño predecibles con border-box
+ * 2. Texto más legible con line-height 1.5
+ * 3. Imágenes responsive por defecto
+ * 4. Controles de formulario consistentes
+ * 5. Texto balanceado en headings
+ * 6. Mejor rendimiento de animaciones
+ */
+
+/* 1. Use a more-intuitive box-sizing model */
+/* 
+ * Establece el modelo de caja border-box para todos los elementos
+ * Esto hace que padding y border se incluyan en el width/height total
+ * Evita problemas de cálculo de dimensiones en layouts complejos
+ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+/*
+ * Elimina todos los márgenes por defecto del navegador
+ * Proporciona una base limpia para márgenes consistentes
+ * Previene inconsistencias entre navegadores
+ */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+/*
+ * Habilita optimizaciones de animación cuando el usuario no prefiere motion reducida
+ * Mejora el rendimiento de animaciones basadas en keywords
+ * Respetuoso con preferencias de accesibilidad
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+/*
+ * Estilos base para el cuerpo del documento
+ * Combinación de mejoras de tipografía y rendimiento
+ */
+body {
+  /* 4. Add accessible line-height */
+  /* 
+   * Line-height de 1.5 para mejor accesibilidad y legibilidad
+   * Cumple con WCAG guidelines para espaciado de texto
+   */
+  line-height: 1.5;
+  
+  /* 5. Improve text rendering */
+  /* 
+   * Suavizado de fuentes para mejor apariencia en navegadores WebKit
+   * Texto más nítido y legible en dispositivos de alta densidad de píxeles
+   */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+/*
+ * Establece comportamientos responsive por defecto para elementos multimedia
+ * Previene overflow y mantiene proporciones en diferentes viewports
+ */
+img, picture, video, canvas, svg {
+  display: block;          /* Elimina espacio fantasma debajo de imágenes */
+  max-width: 100%;         /* Hace los medios responsive por defecto */
+}
+
+/* 7. Inherit fonts for form controls */
+/*
+ * Fuerza la herencia de fuentes en controles de formulario
+ * Mantiene consistencia tipográfica en inputs, buttons, etc.
+ * Evita el uso de fuentes del sistema en controles de formulario
+ */
+input, button, textarea, select {
+  font: inherit;          /* Hereda estilos de fuente del elemento padre */
+}
+
+/* 8. Avoid text overflows */
+/*
+ * Previene overflow de texto en elementos de bloque
+ * Mejora la legibilidad en dispositivos móviles y layouts flexibles
+ */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;  /* Permite romper palabras largas cuando es necesario */
+}
+
+/* 9. Improve line wrapping */
+/*
+ * Mejora el wrapping de texto para mejor legibilidad y estética
+ * Balancea líneas en headings para apariencia más profesional
+ */
+p {
+  text-wrap: pretty;        /* Optimiza saltos de línea para párrafos */
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;       /* Balancea líneas en headings para mejor estética */
+}
+
+/*
+  10. Create a root stacking context
+*/
+/*
+ * Crea un contexto de apilamiento aislado para aplicaciones modernas
+ * Útil para prevenir conflicts de z-index en aplicaciones SPA
+ * Compatible con React, Vue y otros frameworks
+ */
+#root, #__next {
+  isolation: isolate;      /* Aísla el contexto de apilamiento del elemento */
+}
