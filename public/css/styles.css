@@ -1,0 +1,572 @@
+/**
+ * ============================================================================
+ * SISTEMA DE ESTILOS PRINCIPAL - SISTEMA TEEJOSH
+ * ============================================================================
+ * 
+ * ARCHIVO: styles.css
+ * UBICACIÓN: /public/css/styles.css
+ * 
+ * DESCRIPCIÓN:
+ * Sistema de estilos principal del Sistema Teejosh de inventario. Define la
+ * identidad visual completa de la aplicación con una paleta de colores turquesa
+ * y naranja, componentes reutilizables y diseño responsive mobile-first.
+ * 
+ * FUNCIONALIDADES PRINCIPALES:
+ * - Sistema de diseño completo con variables CSS
+ * - Componentes UI reutilizables (botones, formularios, tablas)
+ * - Diseño responsive mobile-first
+ * - Paleta de colores corporativa turquesa/naranja
+ * - Estados de interacción y feedback
+ * - Utilidades y helpers CSS
+ * 
+ * DATOS IMPORTANTES:
+ * - 🟡 COMPLEJIDAD: Media
+ * - 🎨 SISTEMA: Design system completo
+ * - 📱 ENFOQUE: Mobile-first responsive
+ * - 🎯 ALCANCE: Todas las vistas del sistema
+ * - 🔧 METODOLOGÍA: CSS modular y component-based
+ * 
+ * RELACIONES:
+ * - USA: reset.css (como base normalizada)
+ * - APLICADO A: Todas las vistas PHP del sistema
+ * - COMPLEMENTADO POR: Estilos inline en vistas específicas
+ * - CARGADO EN: layouts/header.php después de reset.css
+ * 
+ * ESTRUCTURA DEL ARCHIVO:
+ * 1. Variables CSS (Custom Properties)
+ * 2. Estilos generales y base
+ * 3. Componentes específicos (menús, tablas, formularios)
+ * 4. Utilidades y helpers
+ * 5. Media queries responsive
+ * 
+ * PALETA DE COLORES:
+ * - Primario: Turquesa (#008c9e / #006f7e)
+ * - Acento: Naranja (#cc5500 / #ffddb8) 
+ * - Neutral: Blanco y grises para texto
+ * - Estados: Verde/rojo/amarillo para feedback
+ */
+
+/* ============================================
+   VARIABLES CSS - SISTEMA DE DISEÑO
+   ============================================ */
+
+/* 
+ * Variables de colores - Tu paleta verde 
+ * Sistema centralizado de colores para consistencia visual
+ */
+:root {
+    /* Colores primarios - Turquesa corporativo */
+    --primary-text: #008c9e;              /* Turquesa principal */
+    --primary-text-hover: #006f7e;        /* Turquesa más oscuro (hover) */
+    
+    /* Colores de acento - Naranja para highlights */
+    --dark-text: #cc5500;                 /* Naranja oscuro (acento) */
+    --light-text: #ffddb8;                /* Naranja claro/pastel */
+
+    /* Colores neutrales - Base de la interfaz */
+    --bg-color: #ffffff;                  /* Fondo completamente blanco */
+    --text-color: #333333;                /* Texto neutro para buena lectura */
+
+    /* Colores utilitarios */
+    --border-color: #cceff2;              /* Bordes turquesa muy suaves */
+    --white: #ffffff;                     /* Blanco puro */
+}
+
+/* ============================================
+   ESTILOS GENERALES - CONFIGURACIÓN BASE
+   ============================================ */
+
+/* 
+ * Establece Arial como fuente principal para consistencia cross-platform
+ * Fallback a Helvetica y sans-serif para máxima compatibilidad
+ */
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 
+ * Estilos base del body 
+ * Fondo blanco limpio con texto oscuro para máximo contraste y legibilidad
+ */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh; /* Asegura que el body ocupe al menos toda la viewport */
+}
+
+/* ============================================
+   SISTEMA DE TIPOGRAFÍA - JERARQUÍA VISUAL
+   ============================================ */
+
+/* Heading 1 - Títulos principales */
+h1 {
+    text-align: center;
+    margin: 30px 0;
+    font-size: 2rem; /* 32px basado en 16px default */
+    color: var(--text-color);
+}
+
+/* Heading 2 - Subtítulos y secciones */
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 1.5rem; /* 24px */
+    color: var(--text-color);
+}
+
+/* ============================================
+   COMPONENTE: MENÚ PRINCIPAL
+   ============================================ */
+
+/* Contenedor del menú principal del dashboard */
+.menu {
+    margin: 40px auto;
+    max-width: 900px; /* Ancho máximo para legibilidad */
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaciado consistente entre items */
+}
+
+/* Items del menú como botones de navegación */
+.menu a {
+    display: block;
+    padding: 15px 25px;
+    background-color: var(--primary-text);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease; /* Transición suave para todas las propiedades */
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil para profundidad */
+}
+
+/* Estados de hover para items del menú */
+.menu a:hover {
+    background-color: var(--primary-text-hover);
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra más pronunciada */
+}
+
+/* ============================================
+   SISTEMA DE LAYOUT - CONTENEDORES
+   ============================================ */
+
+/* Contenedor de ancho completo para vistas de datos */
+.full-container {
+    max-width: 1400px; /* Ancho generoso para tablas grandes */
+    margin: 20px auto;
+    padding: 30px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Sombra suave para separación visual */
+}
+
+/* Contenedor estándar para formularios y contenido */
+.container {
+    max-width: 1200px; /* Ligeramente más angosto que full-container */
+    margin: 20px auto;
+    padding: 30px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* ============================================
+   COMPONENTE: FORMULARIOS
+   ============================================ */
+
+/* Contenedor especializado para grupos de formularios */
+.form-container {
+    padding: 20px;
+    background: #f9f9f9; /* Fondo sutil para diferenciar del contenido */
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid var(--border-color); /* Borde turquesa muy suave */
+}
+
+/* Heading específico para formularios */
+.form-container h2 {
+    margin-top: 0; /* Remove default margin cuando es primer elemento */
+    font-size: 1.3rem; /* Tamaño ligeramente menor que h2 estándar */
+}
+
+/* Layout de formularios en columna */
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Espaciado consistente entre campos */
+}
+
+/* Estilos base para controles de formulario */
+.form-container input,
+.form-container select,
+.form-container textarea {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%; /* Campos de ancho completo */
+}
+
+/* Estados de focus para mejor UX */
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    outline: none;
+    border-color: var(--primary-text); /* Borde turquesa en focus */
+    box-shadow: 0 0 0 3px rgba(34, 148, 28, 0.1); /* Sombra de focus sutil */
+}
+
+/* Botones de formulario */
+.form-container button {
+    padding: 12px 20px;
+    background: var(--primary-text);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.form-container button:hover {
+    background: var(--primary-text-hover);
+}
+
+/* ============================================
+   COMPONENTE: TABLAS DE DATOS
+   ============================================ */
+
+/* Tablas base del sistema */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Elimina espacios entre celdas */
+    margin: 20px 0;
+    background: var(--white);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra muy sutil */
+}
+
+/* Encabezados de tabla */
+th {
+    background-color: #333; /* Fondo oscuro para headers */
+    color: var(--white);
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #222; /* Borde ligeramente más oscuro */
+}
+
+/* Celdas de tabla */
+td {
+    padding: 12px;
+    border: 1px solid var(--border-color); /* Borde turquesa suave */
+}
+
+/* Zebra striping para mejor legibilidad */
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fondo alternado para filas pares */
+}
+
+/* Highlight al hacer hover sobre filas */
+tr:hover {
+    background-color: #f0f0f0; /* Fondo gris claro al hover */
+}
+
+/* Botones dentro de tablas (ej: eliminar) */
+table button {
+    padding: 8px 16px;
+    background: #dc3545; /* Rojo para acciones destructivas */
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem; /* Tamaño ligeramente menor */
+    transition: background 0.3s ease;
+}
+
+table button:hover {
+    background: #c82333; /* Rojo más oscuro al hover */
+}
+
+/* ============================================
+   SISTEMA DE FORMULARIOS - ESTILOS BASE
+   ============================================ */
+
+/* Estilos base para todos los inputs del sistema */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease; /* Transición suave para borders */
+}
+
+/* Estados de focus consistentes */
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-text);
+    box-shadow: 0 0 0 3px rgba(34, 148, 28, 0.1);
+}
+
+/* Labels con jerarquía clara */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* ============================================
+   COMPONENTE: BOTONES DEL SISTEMA
+   ============================================ */
+
+/* Botones base - aplica a button y .btn */
+button,
+.btn {
+    padding: 10px 20px;
+    background: var(--primary-text);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease; /* Transición para todas las propiedades */
+}
+
+/* Estados de hover para botones */
+button:hover,
+.btn:hover {
+    background: var(--primary-text-hover);
+    transform: translateY(-1px); /* Efecto de elevación sutil */
+}
+
+/* Estados disabled para botones */
+button:disabled,
+.btn:disabled {
+    background: #ccc; /* Gris para indicar deshabilitado */
+    cursor: not-allowed; /* Cursor de no permitido */
+    transform: none; /* Sin efecto de elevación */
+}
+
+/* ============================================
+   SISTEMA DE FEEDBACK - MENSAJES DE ESTADO
+   ============================================ */
+
+/* Mensajes de éxito (operaciones completadas) */
+.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Mensajes de error (operaciones fallidas) */
+.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Mensajes de advertencia (precauciones) */
+.warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* ============================================
+   COMPONENTE: FORMULARIOS GRID (create.php)
+   ============================================ */
+
+/* Grid avanzado para formularios complejos como create.php */
+.insert-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+    gap: 1rem; /* Espaciado consistente */
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Título que ocupa todo el ancho del grid */
+.insert-form h2 {
+    grid-column: 1 / -1; /* Span through todas las columnas */
+}
+
+/* Elementos del formulario grid al 100% */
+.insert-form label, 
+.insert-form input, 
+.insert-form textarea, 
+.insert-form button {
+    width: 100%;
+}
+
+/* Segunda fila como sub-grid para agrupación lógica */
+.second-row {
+    grid-column: 1 / -1; /* Ocupa todo el ancho del grid padre */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Sub-grid de 4 columnas */
+    gap: 1rem;
+}
+
+/* Botón principal del formulario grid */
+.insert-form button {
+    margin-top: 1rem;
+    grid-column: 1 / -1; /* Ocupa ancho completo */
+    padding: 12px;
+    background: var(--primary-text);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.insert-form button:hover {
+    background: var(--primary-text-hover);
+}
+
+/* ============================================
+   COMPONENTE: MENÚ CONTAINER (modificar_menu.php)
+   ============================================ */
+
+/* Contenedor especializado para menús de opciones */
+.menu-container {
+    max-width: 700px;
+    margin: 80px auto; /* Margen superior generoso para centrado vertical */
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Sombra más pronunciada */
+    text-align: center;
+    padding: 30px;
+}
+
+/* Título del menú container */
+.menu-container h1 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Opciones del menú como botones grandes */
+.menu-container .option {
+    display: block;
+    background-color: var(--primary-text);
+    color: var(--white);
+    text-decoration: none;
+    padding: 15px 0;
+    border-radius: 8px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+    font-size: 18px; /* Tamaño generoso para fácil click */
+}
+
+.menu-container .option:hover {
+    background-color: var(--primary-text-hover);
+}
+
+/* ============================================
+   ESTADOS DE INTERFAZ - ESTADOS ESPECIALES
+   ============================================ */
+
+/* Estado disabled para elementos no interactuables */
+.disabled {
+    opacity: 0.6; /* Transparencia para indicar estado disabled */
+    pointer-events: none; /* Deshabilita todos los eventos de puntero */
+}
+
+/* ============================================
+   SISTEMA DE UTILIDADES - HELPERS CSS
+   ============================================ */
+
+/* Utilidades de alineación de texto */
+.text-center {
+    text-align: center;
+}
+
+/* Utilidades de espaciado */
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+/* ============================================
+   SISTEMA RESPONSIVE - MOBILE-FIRST
+   ============================================ */
+
+/* Breakpoint: Tablets y dispositivos medianos (768px y menos) */
+@media (max-width: 768px) {
+    .menu {
+        padding: 0 10px; /* Padding reducido en móviles */
+    }
+    
+    /* Contenedores más compactos en móviles */
+    .full-container,
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    /* Tablas con texto más pequeño en móviles */
+    table {
+        font-size: 0.85rem;
+    }
+    
+    th, td {
+        padding: 8px; /* Padding reducido para tablas móviles */
+    }
+    
+    /* Formularios grid se convierten en una columna */
+    .insert-form {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+    }
+    
+    .second-row {
+        grid-template-columns: 1fr; /* Sub-grid también en una columna */
+    }
+}
+
+/* Breakpoint: Móviles pequeños (480px y menos) */
+@media (max-width: 480px) {
+    /* Títulos más pequeños en móviles muy pequeños */
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+    }
+    
+    /* Items de menú más compactos */
+    .menu a {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}

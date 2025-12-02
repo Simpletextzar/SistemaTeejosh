@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseline Arquitectónico - Grupo TeeJosh</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; }
+        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 400px; text-align: center; }
+        .status { margin: 20px 0; padding: 10px; border-radius: 5px; font-weight: bold; }
+        .success { background-color: #dcfce7; color: #166534; border: 1px solid #166534; }
+        .error { background-color: #fee2e2; color: #991b1b; border: 1px solid #991b1b; }
+        .loading { color: #666; font-style: italic; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🏗️ Esqueleto Caminante</h2>
+        <p>Prueba de concepto de arquitectura MVC</p>
+        
+        <div id="result-area">
+            <p class="loading">Conectando con el Backend...</p>
+        </div>
+
+        <button onclick="checkHealth()" style="margin-top:15px; padding:10px 20px; cursor:pointer;">Reintentar</button>
+    </div>
+
+    <script>
+        async function checkHealth() {
+            const resultArea = document.getElementById('result-area');
+            resultArea.innerHTML = '<p class="loading">Consultando GET /api/health ...</p>';
+
+            try {
+                // NOTA: Ajusta la URL si tu proyecto no está en la raíz del localhost
+                // El Router espera: ?url=api/health o configuración de .htaccess
+                const response = await fetch('index.php?url=api/health');
+                
+                if (!response.ok) throw new Error('Error en la red');
+                
+                const data = await response.json();
+                
+                // Renderizar resultado
+                const isDbOk = data.database_connection === 'SUCCESS';
+                const cssClass = isDbOk ? 'success' : 'error';
+                const icon = isDbOk ? '✅' : '❌';
+
+                resultArea.innerHTML = `
+                    <div class="status ${cssClass}">
+                        ${icon} Sistema: ${data.system_status}<br>
+                        ${icon} BD: ${data.database_connection}
+                    </div>
+                    <div style="text-align:left; font-size:0.85rem; margin-top:10px;">
+                        <strong>Respuesta Raw:</strong><br>
+                        <code>${JSON.stringify(data, null, 2)}</code>
+                    </div>
+                `;
+            } catch (error) {
+                console.error(error);
+                resultArea.innerHTML = `
+                    <div class="status error">
+                        ❌ Error Fatal: No se pudo conectar con la API.<br>
+                        <small>Verifica que el servidor esté corriendo y la ruta sea correcta.</small>
+                    </div>
+                `;
+            }
+        }
+
+        // Ejecutar al cargar
+        window.onload = checkHealth;
+    </script>
+</body>
+</html>
