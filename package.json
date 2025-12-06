@@ -1,0 +1,106 @@
+{
+  "name": "teejoshelectron",
+  "version": "0.1.0-pre-alpha.1",
+  "description": "Sistema de Inventario para tiendas Teejosh",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:dir": "electron-builder --dir",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "keywords": ["inventario", "pos", "postgres", "php"],
+  "author": "MESVA",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.teejosh.inventario",
+    "productName": "Inventario Teejosh",
+    "copyright": "Copyright © 2025 Teejosh",
+    
+    "compression": "maximum",
+    "asar": true,
+    "asarUnpack": [
+      "**/*.{dll,exe,so,dylib,node}",
+      "**/postgres/**/*",
+      "**/php/**/*"
+    ],
+    
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    
+    "files": [
+      "main.js",
+      "package.json",
+      "preload.js"
+    ],
+    
+    "extraResources": [
+      {
+        "from": "php/",
+        "to": "php/",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "postgres/bin/",
+        "to": "postgres/bin/",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "postgres/lib/",
+        "to": "postgres/lib/",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "postgres/share/",
+        "to": "postgres/share/",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "postgres/pgdata_template/",
+        "to": "postgres/pgdata_template/",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "postgres/dump.sql",
+        "to": "postgres/dump.sql"
+      },
+      {
+        "from": "app/",
+        "to": "app/",
+        "filter": ["**/*"]
+      }
+    ],
+    
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "compression": "maximum",
+      "publisherName": "MESVA",
+      "verifyUpdateCodeSignature": false
+    },
+    
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": false,
+      "deleteAppDataOnUninstall": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Teejosh",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    }
+  }
+}

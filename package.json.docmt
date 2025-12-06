@@ -1,0 +1,417 @@
+/**
+ * package.json
+ * 
+ * DESCRIPCIÓN_GENERAL:
+ * Archivo de configuración principal para Node.js/Electron que define metadatos del proyecto,
+ * dependencias, scripts de construcción y configuración de electron-builder.
+ * Es el "manifest" que describe cómo empaquetar y distribuir la aplicación.
+ * 
+ * FUNCIONALIDADES_PRINCIPALES:
+ * - Definición de metadatos: nombre, versión, autor, descripción
+ * - Gestión de dependencias: Electron, electron-builder y otras librerías
+ * - Scripts de npm: start (desarrollo), build (producción), postinstall
+ * - Configuración de electron-builder para crear instaladores
+ * - Definición de recursos extra a incluir en el paquete (PHP, PostgreSQL, app)
+ * - Configuración de NSIS para instalador Windows
+ * 
+ * DATOS_IMPORTANTES:
+ * - 📦 TIPO: commonjs (sistema de módulos tradicional de Node.js)
+ * - 🏷️  VERSIÓN: 1.0.0 - Incrementar para nuevas releases
+ * - 🔧 ELECTRON: ^39.0.0 (versión específica del framework)
+ * - 🛠️  BUILDER: electron-builder ^24.13.3 (para crear instaladores)
+ * - 📁 OUTPUT: dist/ (carpeta donde se generan los instaladores)
+ * - ⚠️  ASAR: true (archivo empaquetado para proteger código fuente)
+ * 
+ * RELACIONES:
+ * - Es leído por: npm, electron, electron-builder
+ * - Referencia: main.js (punto de entrada), preload.js (script puente)
+ * - Incluye: PHP, PostgreSQL, aplicación PHP como extraResources
+ * - Genera: Instalador Windows (.exe) en dist/
+ * 
+ * EJEMPLOS_DE_USO:
+ * // Instalar dependencias:
+ * npm install
+ * 
+ * // Ejecutar en modo desarrollo:
+ * npm start
+ * 
+ * // Construir instalador para Windows:
+ * npm run build
+ * 
+ * // Construir solo para Windows:
+ * npm run build:win
+ * 
+ * // Construir sin instalador (solo archivos):
+ * npm run build:dir
+ * 
+ * NOTAS_CSS/HTML:
+ * - Este archivo no contiene CSS/HTML directamente
+ * - Define qué archivos se incluyen en el instalador (incluyendo app/ con HTML/CSS/JS)
+ * - Configura cómo se empaqueta la aplicación Electron que contiene el frontend web
+ */
+
+{
+  // ==========================================================================
+  // METADATOS BÁSICOS DEL PROYECTO
+  // ==========================================================================
+  
+  /**
+   * Nombre único del paquete npm (sin espacios, minúsculas).
+   * Se usa como identificador interno y para la carpeta en node_modules.
+   */
+  "name": "teejoshelectron",
+  
+  /**
+   * Versión de la aplicación usando semántica de versionado (MAJOR.MINOR.PATCH).
+   * - MAJOR: Cambios incompatibles
+   * - MINOR: Nuevas funcionalidades compatibles
+   * - PATCH: Correcciones de errores
+   */
+  "version": "1.0.0",
+  
+  /**
+   * Descripción breve de la aplicación para listados y documentación.
+   */
+  "description": "Sistema de Inventario - Teejosh",
+  
+  /**
+   * Punto de entrada principal de la aplicación Electron.
+   * Electron ejecutará este archivo al iniciar la aplicación.
+   */
+  "main": "main.js",
+  
+  /**
+   * Palabras clave para facilitar la búsqueda y categorización.
+   */
+  "keywords": ["inventario", "pos", "postgres", "php"],
+  
+  /**
+   * Autor o entidad responsable del desarrollo.
+   */
+  "author": "Teejosh",
+  
+  /**
+   * Licencia de software (ISC es similar a MIT).
+   */
+  "license": "ISC",
+  
+  /**
+   * Sistema de módulos a usar: commonjs (tradicional) vs module (ES6).
+   * Electron requiere commonjs para compatibilidad.
+   */
+  "type": "commonjs",
+
+  // ==========================================================================
+  // SCRIPTS DE NPM
+  // ==========================================================================
+  
+  /**
+   * Comandos disponibles para ejecutar con `npm run [script]`.
+   * 
+   * start: Inicia la aplicación en modo desarrollo usando Electron directamente.
+   * build: Ejecuta electron-builder para crear instaladores de producción.
+   * build:win: Construye solo para Windows.
+   * build:dir: Construye solo los archivos (sin instalador, útil para testing).
+   * postinstall: Se ejecuta automáticamente después de `npm install`.
+   *   Instala dependencias nativas necesarias para electron-builder.
+   */
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:dir": "electron-builder --dir",
+    "postinstall": "electron-builder install-app-deps"
+  },
+
+  // ==========================================================================
+  // DEPENDENCIAS DE DESARROLLO
+  // ==========================================================================
+  
+  /**
+   * Dependencias necesarias SOLO durante desarrollo y construcción.
+   * No se incluyen en la aplicación final empaquetada.
+   * 
+   * electron: Framework principal para aplicaciones de escritorio.
+   * electron-builder: Herramienta para crear instaladores multiplataforma.
+   */
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "electron-builder": "^24.13.3"
+  },
+
+  // ==========================================================================
+  // CONFIGURACIÓN DE ELECTRON-BUILDER
+  // ==========================================================================
+  
+  /**
+   * Sección específica para configurar electron-builder.
+   * Define cómo empaquetar y distribuir la aplicación.
+   */
+  "build": {
+    
+    // ========================================================================
+    // IDENTIFICACIÓN DE LA APLICACIÓN
+    // ========================================================================
+    
+    /**
+     * Identificador único de la aplicación (formato reverse-DNS).
+     * Usado por el sistema operativo para identificar la aplicación.
+     */
+    "appId": "com.teejosh.inventario",
+    
+    /**
+     * Nombre visible de la aplicación (puede contener espacios).
+     * Aparece en el menú inicio, escritorio, y panel de control.
+     */
+    "productName": "Teejosh Inventario",
+    
+    /**
+     * Información de copyright para metadatos del ejecutable.
+     */
+    "copyright": "Copyright © 2025 Teejosh",
+    
+    // ========================================================================
+    // CONFIGURACIÓN DE EMPAQUETADO
+    // ========================================================================
+    
+    /**
+     * Nivel de compresión para reducir tamaño del instalador.
+     * - maximum: Máxima compresión (más lento pero más pequeño)
+     * - normal: Compresión estándar
+     * - store: Sin compresión (más rápido pero más grande)
+     */
+    "compression": "maximum",
+    
+    /**
+     * Empaquetar código fuente en archivo ASAR para protección y rendimiento.
+     * ASAR es un formato tipo TAR especial para Electron.
+     */
+    "asar": true,
+    
+    /**
+     * Archivos a excluir del empaquetado ASAR (mantener accesibles).
+     * Binarios ejecutables necesitan estar fuera de ASAR para funcionar.
+     */
+    "asarUnpack": [
+      "**/*.{dll,exe,so,dylib,node}", // Binarios nativos
+      "**/postgres/**/*",             // PostgreSQL completo
+      "**/php/**/*"                   // PHP completo
+    ],
+    
+    // ========================================================================
+    // DIRECTORIOS
+    // ========================================================================
+    
+    /**
+     * output: Carpeta donde se generan los instaladores.
+     * buildResources: Recursos adicionales para el proceso de construcción.
+     */
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    
+    // ========================================================================
+    // ARCHIVOS A INCLUIR EN EL PAQUETE
+    // ========================================================================
+    
+    /**
+     * Lista de archivos a incluir en el paquete raíz.
+     * Por defecto, electron-builder incluye todo, pero esto lo restringe.
+     * 
+     * main.js: Punto de entrada de Electron
+     * package.json: Configuración del proyecto
+     * preload.js: Script puente para comunicación segura
+     */
+    "files": [
+      "main.js",
+      "package.json",
+      "preload.js"
+    ],
+    
+    // ========================================================================
+    // RECURSOS EXTRA (CRÍTICO PARA LA APLICACIÓN)
+    // ========================================================================
+    
+    /**
+     * Archivos adicionales a copiar en la aplicación empaquetada.
+     * Estos NO son parte del paquete ASAR y se copian tal cual.
+     * 
+     * ESTRUCTURA FINAL EN APLICACIÓN EMPAQUETADA:
+     * resources/
+     *   ├── app/           → Aplicación PHP completa
+     *   ├── php/           → Binarios PHP
+     *   └── postgres/      → Binarios PostgreSQL + template + dump
+     */
+    "extraResources": [
+      /**
+       * PHP: Intérprete de PHP embebido para ejecutar la aplicación web.
+       * Incluye php.exe y todas las extensiones necesarias.
+       */
+      {
+        "from": "php/",
+        "to": "php/",
+        "filter": ["**/*"] // Incluir todos los archivos
+      },
+      
+      /**
+       * PostgreSQL/bin: Binarios principales de PostgreSQL.
+       * - pg_ctl.exe: Controlar servicio PostgreSQL
+       * - psql.exe: Cliente de línea de comandos
+       * - pg_isready.exe: Verificar si PostgreSQL está listo
+       * - initdb.exe: Inicializar nuevo cluster
+       */
+      {
+        "from": "postgres/bin/",
+        "to": "postgres/bin/",
+        "filter": ["**/*"]
+      },
+      
+      /**
+       * PostgreSQL/lib: Librerías compartidas necesarias para PostgreSQL.
+       */
+      {
+        "from": "postgres/lib/",
+        "to": "postgres/lib/",
+        "filter": ["**/*"]
+      },
+      
+      /**
+       * PostgreSQL/share: Archivos de datos y configuración regional.
+       */
+      {
+        "from": "postgres/share/",
+        "to": "postgres/share/",
+        "filter": ["**/*"]
+      },
+      
+      /**
+       * PostgreSQL/pgdata_template: Cluster pre-inicializado para arranque rápido.
+       * Reduce tiempo de primer inicio de ~10s a ~2s.
+       */
+      {
+        "from": "postgres/pgdata_template/",
+        "to": "postgres/pgdata_template/",
+        "filter": ["**/*"]
+      },
+      
+      /**
+       * PostgreSQL/dump.sql: Base de datos inicial con estructura y datos.
+       * Se importa automáticamente la primera vez que se ejecuta la app.
+       */
+      {
+        "from": "postgres/dump.sql",
+        "to": "postgres/dump.sql"
+      },
+      
+      /**
+       * app/: Aplicación web completa (PHP, HTML, CSS, JS).
+       * Contiene el código fuente del sistema de inventario.
+       */
+      {
+        "from": "app/",
+        "to": "app/",
+        "filter": ["**/*"]
+      }
+    ],
+    
+    // ========================================================================
+    // CONFIGURACIÓN ESPECÍFICA PARA WINDOWS
+    // ========================================================================
+    
+    /**
+     * Configuración para la construcción de instaladores Windows.
+     */
+    "win": {
+      /**
+       * Tipos de instaladores a generar:
+       * - nsis: Instalador estándar de Windows (.exe)
+       * - nsis-web: Instalador web (más pequeño, descarga durante instalación)
+       * - portable: Aplicación portable (.exe auto-contenida)
+       * - appx: Paquete Windows Store
+       */
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"] // Solo arquitectura 64-bit
+        }
+      ],
+      
+      /**
+       * Compresión específica para Windows.
+       */
+      "compression": "maximum",
+      
+      /**
+       * Nombre del publicador para certificados digitales (opcional).
+       */
+      "publisherName": "Teejosh",
+      
+      /**
+       * Desactivar verificación de firma de código (para desarrollo).
+       * En producción, debería estar activado con certificado válido.
+       */
+      "verifyUpdateCodeSignature": false
+    },
+    
+    // ========================================================================
+    // CONFIGURACIÓN NSIS (INSTALADOR WINDOWS)
+    // ========================================================================
+    
+    /**
+     * Opciones específicas del instalador NSIS (Nullsoft Scriptable Install System).
+     */
+    "nsis": {
+      /**
+       * oneClick: Instalación con un solo clic (sin interfaz paso a paso).
+       * - true: Instalación silenciosa automática
+       * - false: Mostrar asistente de instalación
+       */
+      "oneClick": true,
+      
+      /**
+       * perMachine: Instalación para todos los usuarios (requiere admin).
+       * - true: Instalar en Program Files (todos los usuarios)
+       * - false: Instalar en AppDataLocal (usuario actual)
+       */
+      "perMachine": false,
+      
+      /**
+       * allowElevation: Permitir elevación de privilegios si es necesario.
+       */
+      "allowElevation": true,
+      
+      /**
+       * allowToChangeInstallationDirectory: Permitir cambiar directorio de instalación.
+       */
+      "allowToChangeInstallationDirectory": false,
+      
+      /**
+       * deleteAppDataOnUninstall: Eliminar datos de usuario al desinstalar.
+       * Importante: Si es true, se pierden configuraciones y datos del usuario.
+       */
+      "deleteAppDataOnUninstall": true,
+      
+      /**
+       * createDesktopShortcut: Crear acceso directo en escritorio.
+       */
+      "createDesktopShortcut": true,
+      
+      /**
+       * createStartMenuShortcut: Crear acceso directo en menú inicio.
+       */
+      "createStartMenuShortcut": true,
+      
+      /**
+       * shortcutName: Nombre del acceso directo (sin .lnk).
+       */
+      "shortcutName": "Teejosh Inventario",
+      
+      /**
+       * artifactName: Patrón para nombrar el archivo instalador generado.
+       * Variables disponibles: ${productName}, ${version}, ${ext}
+       */
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    }
+  }
+}
